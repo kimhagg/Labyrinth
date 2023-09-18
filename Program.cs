@@ -1,21 +1,15 @@
 ﻿namespace Labyrinth
 {
-    internal class Program
+    internal static class Program
     {
         static void Main(string[] args)
         {
-            char[][] maze = {
-                new char[] {'#', '#', '#', '#', '#', '#', '#', '#', '#', '#'},
-                new char[] {'#', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', '#'},
-                new char[] {'#', ' ', '#', ' ', '#', ' ', '#', '#', ' ', '#'},
-                new char[] {'#', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', '#'},
-                new char[] {'#', ' ', '#', '#', '#', '#', ' ', '#', ' ', '#'},
-                new char[] {'#', ' ', ' ', ' ', ' ', ' ', ' ', '#', 'O', '#'},
-                new char[] {'#', '#', '#', '#', '#', '#', '#', '#', '#', '#'},
-            };
 
-            byte playerX = 1;
-            byte playerY = 1;
+            int choice = 0;
+            char[][] maze = MazeChoice(choice);
+
+            byte playerX = 1;//Testing numbers, Easy = 8, Medium = 3
+            byte playerY = 1;//Testing numbers, Easy = 5, Medium = 8
 
             bool win = false;
 
@@ -61,20 +55,81 @@
                     }
                 }
 
-                if (playerY == 5 && playerX == 8) 
+                win = isWin(maze, playerY, playerX);
+
+                //Console.ReadLine("Vill du spela igen?(Y/N): ");
+            }
+        }
+
+        public static bool isWin(char[][] maze, int playerY, int playerX)
+        {
+            bool win = false;
+
+            if (maze[playerY][playerX] == 'O')
+            {
+                win = true;
+                Console.Clear();
+                for (int i = 0; i < maze.Length; i++) 
                 {
-                    win = true;
-                    Console.Clear();
-                    Console.WriteLine("");
-                    Console.WriteLine("");
-                    Console.WriteLine("      Grattis!");
-                    Console.WriteLine(/*"Grattis du har vunnit!"*/);
-                    Console.WriteLine("      Du vann!");
-                    Console.WriteLine("");
-                    Console.WriteLine("");
-                    //Console.ReadLine("Vill du spela igen?(Y/N): ");
+                    if (i == Math.Floor((double) maze.Length / 2 - 1)) 
+                    {
+                        for (int j = 0; j < maze[i].Length / 2 - 3; j++) Console.Write(" ");
+                        Console.WriteLine("Grattis!");
+                    }
+                    else if (i == Math.Floor((double) maze.Length / 2 + 1))
+                    {
+                        for (int k = 0; k < maze[i].Length / 2 - 3; k++) Console.Write(" ");
+                        Console.WriteLine("Du vann!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("");
+                    }
                 }
             }
+
+            return win;
+        }
+        public static char[][] MazeChoice(int choice)
+        {
+            char[][] maze = {new char[] {'#'} };
+            char[][] mazeEasy = {
+                new char[] { '#', '#', '#', '#', '#', '#', '#', '#', '#', '#' },
+                new char[] { '#', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', '#' },
+                new char[] { '#', ' ', '#', ' ', '#', ' ', '#', '#', ' ', '#' },
+                new char[] { '#', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', '#' },
+                new char[] { '#', ' ', '#', '#', '#', '#', ' ', '#', ' ', '#' },
+                new char[] { '#', ' ', ' ', ' ', ' ', ' ', ' ', '#', 'O', '#' },
+                new char[] { '#', '#', '#', '#', '#', '#', '#', '#', '#', '#' }
+                };
+
+            char[][] mazeMedium = {
+                new char[] { '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#' },
+                new char[] { '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', '#' },
+                new char[] { '#', ' ', '#', '#', '#', '#', ' ', '#', ' ', '#', '#', '#', ' ', '#' },
+                new char[] { '#', ' ', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', '#' },
+                new char[] { '#', ' ', '#', ' ', '#', ' ', '#', '#', '#', '#', ' ', ' ', ' ', '#' },
+                new char[] { '#', ' ', '#', '#', ' ', '#', ' ', ' ', ' ', ' ', '#', ' ', '#', '#' },
+                new char[] { '#', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', '#' },
+                new char[] { '#', ' ', '#', ' ', '#', '#', ' ', '#', ' ', '#', '#', '#', ' ', '#' },
+                new char[] { '#', ' ', '#', ' ', 'O', ' ', ' ', '#', ' ', '#', ' ', '#', ' ', '#' },
+                new char[] { '#', ' ', '#', '#', '#', '#', '#', '#', ' ', '#', ' ', '#', ' ', '#' },
+                new char[] { '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#' },
+                new char[] { '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#' }
+                };
+
+            switch (choice)
+            {
+                case 0:
+                    maze = mazeEasy;
+                    break;
+                case 1:
+                    maze = mazeMedium;
+                    break;
+
+            }
+
+            return maze;
         }
     }
 }
