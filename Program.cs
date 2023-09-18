@@ -4,8 +4,31 @@
     {
         static void Main(string[] args)
         {
+            bool playing = true;
+            while (playing)
+            {
+                Console.Clear();
+                Console.WriteLine("Vilken svårighetsgrad vill du spela på?");
+                Console.Write("0. Easy, 1. Medium: ");
+                string input = Console.ReadLine();
+                while (Convert.ToInt32(input) != 0 || Convert.ToInt32(input) != 1)
+                {
+                    Console.Write("Incorrect input, try again: ");
+                    input = Console.ReadLine();
+                } 
+                int choice = Convert.ToInt32(input);
 
-            int choice = 0;
+                PlayLabyrinth(choice);
+
+                Console.Write("Vill du spela igen?(Y/N): ");
+                String playAgain = Console.ReadLine();
+                if (playAgain != null) { playAgain = playAgain.Substring(0, 1); }
+                if (playAgain.ToUpper() == "N") { playing = false; }
+            }
+        }
+
+        public static void PlayLabyrinth(int choice)
+        {
             char[][] maze = MazeChoice(choice);
 
             byte playerX = 1;//Testing numbers, Easy = 8, Medium = 3
@@ -32,9 +55,9 @@
                     Console.WriteLine();
                 }
 
+
                 Console.Write("Ange din rörelse (NSEW): ");
                 string move = Console.ReadLine();
-
                 if (move.Length > 0)
                 {
                     move = move.Substring(0, 1);
@@ -52,16 +75,16 @@
                         case "W":
                             if (maze[playerY][playerX - 1] != '#') playerX--;
                             break;
+                        default:
+                            break;
                     }
                 }
 
-                win = isWin(maze, playerY, playerX);
-
-                //Console.ReadLine("Vill du spela igen?(Y/N): ");
+                win = IsWin(maze, playerY, playerX);
             }
         }
 
-        public static bool isWin(char[][] maze, int playerY, int playerX)
+        public static bool IsWin(char[][] maze, int playerY, int playerX)
         {
             bool win = false;
 
